@@ -11,6 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -26,11 +30,18 @@ public class FrontendControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @Test
-    public void shouldReturnListOfProduct(){
+    SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-        Product product1 = new Product("XYZ", 2500, "Used for smoking");
-        Product product2 = new Product("ABC", 5600, "used for hitting");
+    @Test
+    public void shouldReturnListOfProduct() throws ParseException {
+
+        Product product1 = new Product("1","Leaf Rake", "GDN-0011", 1995, date.parse("2017-03-19T15:15:55.570Z"),
+            "Leaf rake with 48-inch wooden handle.", 3.2f,
+            "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png", 400);
+        Product product2 = new Product("2","Garden Cart", "GDN-0023", 3295,
+            date.parse("2017-03-18T08:15:55.570Z"), "15 gallon capacity rolling garden cart", 4.2f,
+            "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png",
+            20);
 
         when(basicService.getProducts()).thenReturn(Flux.just(product1, product2));
 
@@ -44,5 +55,25 @@ public class FrontendControllerTest {
 
         verify(basicService, times(1)).getProducts();
 
+    }
+
+    @Test
+    public void shouldReturnProductById() throws ParseException {
+
+        Product product1 = new Product("2","Garden Cart", "GDN-0023", 3295,
+            date.parse("2017-03-18T08:15:55.570Z"), "15 gallon capacity rolling garden cart", 4.2f,
+            "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png",
+            20);
+
+        when(basicService.getProductById("1")).thenReturn(Mono.just(product1));
+
+        webTestClient.get().uri("/product/1")
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(Product.class)
+            .isEqualTo(product1);
+
+        verify(basicService, times(1)).getProductById("1");
     }
 }
