@@ -24,7 +24,7 @@ public class BasicServiceTest {
     @Before
     public void setUp() throws Exception {
         basicService = new BasicService();
-         date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         product1 = Product.builder().id("1")
             .productName("Leaf Rake")
@@ -108,5 +108,23 @@ public class BasicServiceTest {
             .expectNext(updatedProduct)
             .verifyComplete();
 
+    }
+
+    @Test
+    public void shouldAddProductDetails() throws ParseException {
+
+        Product product6 = Product.builder().id("6")
+            .productName("New Garden Rake")
+            .productCode("GDN-00189")
+            .price(1995)
+            .releaseDate(date.parse("2017-03-19T15:15:55.570Z"))
+            .description("Leaf rake with 48-inch wooden handle.")
+            .starRating(3.2f)
+            .imageUrl(IMAGE_URL1)
+            .stock(400).build();
+
+        StepVerifier.create(basicService.addProductDetails(product6))
+            .expectNext(product6)
+            .verifyComplete();
     }
 }

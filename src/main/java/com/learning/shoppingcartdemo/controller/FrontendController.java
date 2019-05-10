@@ -5,15 +5,13 @@ import com.learning.shoppingcartdemo.service.BasicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
-
-import java.text.ParseException;
 
 @RestController
 @RequestMapping
@@ -35,5 +33,10 @@ public class FrontendController {
     @PutMapping(value = "/product/{id}")
     public Mono<Product> updateProductDetails(@RequestBody Product product, @PathVariable String id) {
         return basicService.updateProductDetails(product, id);
+    }
+
+    @PostMapping(value = "/product")
+    public Mono<Product> addProduct(@RequestBody Product product){
+        return basicService.addProductDetails(product);
     }
 }

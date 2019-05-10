@@ -10,19 +10,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-//@AllArgsConstructor
-//@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
 public class Product {
     @Id
     private String id;
-    private final String productName;
+    private String productName;
     private String productCode;
     @Builder.Default
     private int price = 0;
     private Date releaseDate;
-   // private Date lastModified = new Date();
+//    @Builder.Default
+//    private Date lastModified = new Date();
     private String description;
     @Builder.Default
     private float starRating = 0;

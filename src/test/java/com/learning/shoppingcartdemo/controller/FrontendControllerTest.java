@@ -118,4 +118,30 @@ public class FrontendControllerTest {
 
         verify(basicService, times(1)).updateProductDetails(updatedProduct, "1");
     }
+
+    @Test
+    public void shouldAddProductDetails() throws ParseException {
+
+        Product product3 = Product.builder().id("3")
+            .productName("New Garden Rake")
+            .productCode("GDN-00189")
+            .price(1995)
+            .releaseDate(date.parse("2017-03-19T15:15:55.570Z"))
+            .description("Leaf rake with 48-inch wooden handle.")
+            .starRating(3.2f)
+            .imageUrl(IMAGE_URL1)
+            .stock(400).build();
+
+        when(basicService.addProductDetails(product3)).thenReturn(Mono.just(product3));
+
+        webTestClient.post().uri("/product")
+            .body(Mono.just(product3), Product.class)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(Product.class)
+            .isEqualTo(product3);
+
+        verify(basicService, times(1)).addProductDetails(product3);
+    }
 }

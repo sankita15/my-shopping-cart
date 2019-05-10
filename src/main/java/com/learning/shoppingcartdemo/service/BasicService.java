@@ -100,4 +100,10 @@ public class BasicService {
         listOfProduct.put(id, product);
         return getProductById(id);
     }
+
+    public Mono<Product> addProductDetails(Product product){
+        listOfProduct.put(product.getId(), product);
+
+        return getProductById(product.getId());
+    }
 }
