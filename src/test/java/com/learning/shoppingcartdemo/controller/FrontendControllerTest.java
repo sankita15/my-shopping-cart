@@ -2,6 +2,7 @@ package com.learning.shoppingcartdemo.controller;
 
 import com.learning.shoppingcartdemo.model.Product;
 import com.learning.shoppingcartdemo.service.BasicService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +25,44 @@ import static org.mockito.Mockito.when;
 @WebFluxTest(FrontendController.class)
 public class FrontendControllerTest {
 
+    private static final String IMAGE_URL1 = "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png";
+    private static final String IMAGE_URL2 = "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png";
+
     @MockBean
     private BasicService basicService;
 
     @Autowired
     private WebTestClient webTestClient;
 
-    SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    private Product product1, product2;
+
+    @Before
+    public void setUp() throws Exception {
+        product1 = Product.builder().id("1")
+            .productName("Leaf Rake")
+            .productCode("GDN-0011")
+            .price(1995)
+            .releaseDate(date.parse("2017-03-19T15:15:55.570Z"))
+            .description("Leaf rake with 48-inch wooden handle.")
+            .starRating(3.2f)
+            .imageUrl(IMAGE_URL1)
+            .stock(400).build();
+
+        product2 = Product.builder().id("2")
+            .productName("Garden Cart")
+            .productCode("GDN-0023")
+            .price(3295)
+            .releaseDate(date.parse("2017-03-18T08:15:55.570Z"))
+            .description("15 gallon capacity rolling garden cart")
+            .starRating(3.2f)
+            .imageUrl(IMAGE_URL2)
+            .stock(20).build();
+    }
 
     @Test
-    public void shouldReturnListOfProduct() throws ParseException {
-
-        Product product1 = new Product("1","Leaf Rake", "GDN-0011", 1995, date.parse("2017-03-19T15:15:55.570Z"),
-            "Leaf rake with 48-inch wooden handle.", 3.2f,
-            "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png", 400);
-        Product product2 = new Product("2","Garden Cart", "GDN-0023", 3295,
-            date.parse("2017-03-18T08:15:55.570Z"), "15 gallon capacity rolling garden cart", 4.2f,
-            "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png",
-            20);
+    public void shouldReturnListOfProduct() {
 
         when(basicService.getProducts()).thenReturn(Flux.just(product1, product2));
 
@@ -58,12 +79,7 @@ public class FrontendControllerTest {
     }
 
     @Test
-    public void shouldReturnProductById() throws ParseException {
-
-        Product product1 = new Product("2","Garden Cart", "GDN-0023", 3295,
-            date.parse("2017-03-18T08:15:55.570Z"), "15 gallon capacity rolling garden cart", 4.2f,
-            "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png",
-            20);
+    public void shouldReturnProductById() {
 
         when(basicService.getProductById("1")).thenReturn(Mono.just(product1));
 
@@ -75,5 +91,31 @@ public class FrontendControllerTest {
             .isEqualTo(product1);
 
         verify(basicService, times(1)).getProductById("1");
+    }
+
+    @Test
+    public void shoudldUpdateProductDetails() throws ParseException {
+
+        Product updatedProduct = Product.builder().id("1")
+            .productName("New Leaf Rake")
+            .productCode("GDN-0011")
+            .price(1995)
+            .releaseDate(date.parse("2017-03-19T15:15:55.570Z"))
+            .description("Leaf rake with 48-inch wooden handle.")
+            .starRating(3.2f)
+            .imageUrl(IMAGE_URL1)
+            .stock(400).build();
+
+        when(basicService.updateProductDetails(updatedProduct, "1")).thenReturn(Mono.just(updatedProduct));
+
+        webTestClient.put().uri("/product/1")
+            .body(Mono.just(updatedProduct), Product.class)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(Product.class)
+            .isEqualTo(updatedProduct);
+
+        verify(basicService, times(1)).updateProductDetails(updatedProduct, "1");
     }
 }
