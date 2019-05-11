@@ -5,13 +5,8 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuple2;
 
-import java.lang.reflect.Array;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 @Service
@@ -105,5 +100,10 @@ public class BasicService {
         listOfProduct.put(product.getId(), product);
 
         return getProductById(product.getId());
+    }
+
+    public Mono<Product> deleteProductDetails(String id){
+         Product removedProduct = listOfProduct.remove(id);
+         return Mono.just(removedProduct);
     }
 }

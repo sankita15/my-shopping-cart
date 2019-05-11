@@ -83,7 +83,7 @@ public class FrontendControllerTest {
 
         when(basicService.getProductById("1")).thenReturn(Mono.just(product1));
 
-        webTestClient.get().uri("/product/1")
+        webTestClient.get().uri("/products/1")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .expectStatus().isOk()
@@ -108,7 +108,7 @@ public class FrontendControllerTest {
 
         when(basicService.updateProductDetails(updatedProduct, "1")).thenReturn(Mono.just(updatedProduct));
 
-        webTestClient.put().uri("/product/1")
+        webTestClient.put().uri("/products/1")
             .body(Mono.just(updatedProduct), Product.class)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
@@ -143,5 +143,21 @@ public class FrontendControllerTest {
             .isEqualTo(product3);
 
         verify(basicService, times(1)).addProductDetails(product3);
+    }
+
+    @Test
+    public void shouldDeleteProductDetails() {
+
+        when(basicService.deleteProductDetails("1")).thenReturn(Mono.just(product1));
+
+        webTestClient.delete().uri("/products/1")
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(Product.class)
+
+        .isEqualTo(product1);
+
+        verify(basicService, times(1)).deleteProductDetails("1");
     }
 }

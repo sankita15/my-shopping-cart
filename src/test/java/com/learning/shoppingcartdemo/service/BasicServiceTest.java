@@ -127,4 +127,9 @@ public class BasicServiceTest {
             .expectNext(product6)
             .verifyComplete();
     }
+
+    @Test
+    public void shouldDeleteProductDetails(){
+        StepVerifier.create(basicService.deleteProductDetails("1")).expectNext(product1).verifyComplete();
+    }
 }
