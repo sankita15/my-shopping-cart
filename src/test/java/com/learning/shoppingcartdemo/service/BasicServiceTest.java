@@ -1,17 +1,32 @@
 package com.learning.shoppingcartdemo.service;
 
 import com.learning.shoppingcartdemo.model.Product;
+import com.learning.shoppingcartdemo.repository.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.springframework.test.context.junit4.SpringRunner;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
+@RunWith(SpringRunner.class)
 public class BasicServiceTest {
 
     private BasicService basicService;
+
+    @Mock
+    private ProductRepository productRepository;
+
     private Product product1, product2, product3, product4, product5;
     private static final String IMAGE_URL1 = "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png";
     private static final String IMAGE_URL2 = "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png";
@@ -23,7 +38,7 @@ public class BasicServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        basicService = new BasicService();
+        basicService = new BasicService(productRepository);
         date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         product1 = Product.builder().id("1")
@@ -79,21 +94,29 @@ public class BasicServiceTest {
 
     @Test
     public void shouldReturnListOfProducts() {
+        when(productRepository.findAll()).thenReturn(Flux.just(product1,product2, product3, product4, product5));
 
         StepVerifier.create(basicService.getProducts())
             .expectNext(product1, product2, product3, product4, product5)
             .verifyComplete();
+
+        verify(productRepository, times(1)).findAll();
     }
 
     @Test
     public void shouldReturnProductById() {
+        when(productRepository.findById("1")).thenReturn(Mono.just(product1));
+
         StepVerifier.create(basicService.getProductById("1"))
             .expectNext(product1)
             .verifyComplete();
+
+        verify(productRepository, times(1)).findById("1");
     }
 
     @Test
     public void shouldUpdateTheProduct() throws ParseException {
+
         Product updatedProduct = Product.builder().id("1")
             .productName("New Leaf Rake")
             .productCode("GDN-0011")
@@ -104,15 +127,18 @@ public class BasicServiceTest {
             .imageUrl(IMAGE_URL1)
             .stock(400).build();
 
+        when(productRepository.save(any())).thenReturn(Mono.just(updatedProduct));
+
         StepVerifier.create(basicService.updateProductDetails(updatedProduct, "1"))
             .expectNext(updatedProduct)
             .verifyComplete();
+
+        verify(productRepository, times(1)).save(updatedProduct);
 
     }
 
     @Test
     public void shouldAddProductDetails() throws ParseException {
-
         Product product6 = Product.builder().id("6")
             .productName("New Garden Rake")
             .productCode("GDN-00189")
@@ -123,13 +149,21 @@ public class BasicServiceTest {
             .imageUrl(IMAGE_URL1)
             .stock(400).build();
 
+        when(productRepository.insert(product6)).thenReturn(Mono.just(product6));
+
         StepVerifier.create(basicService.addProductDetails(product6))
             .expectNext(product6)
             .verifyComplete();
+
+        verify(productRepository, times(1)).insert(product6);
     }
 
     @Test
     public void shouldDeleteProductDetails(){
-        StepVerifier.create(basicService.deleteProductDetails("1")).expectNext(product1).verifyComplete();
+        when(productRepository.deleteById("1")).thenReturn(Mono.empty());
+
+        StepVerifier.create(basicService.deleteProductDetails("1")).verifyComplete();
+
+        verify(productRepository, times(1)).deleteById("1");
     }
 }

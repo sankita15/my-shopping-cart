@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -14,9 +15,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Data
+@Document(collection = "Product")
 public class Product {
     @Id
     private String id;
+    @Indexed
     private String productName;
     private String productCode;
     @Builder.Default

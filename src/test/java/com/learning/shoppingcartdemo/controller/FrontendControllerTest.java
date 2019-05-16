@@ -1,12 +1,14 @@
 package com.learning.shoppingcartdemo.controller;
 
+import com.learning.shoppingcartdemo.TestConfig;
 import com.learning.shoppingcartdemo.model.Product;
 import com.learning.shoppingcartdemo.service.BasicService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,7 +24,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@WebFluxTest(FrontendController.class)
+@AutoConfigureWebTestClient
+@SpringBootTest(classes = TestConfig.class)
 public class FrontendControllerTest {
 
     private static final String IMAGE_URL1 = "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png";
@@ -148,15 +151,13 @@ public class FrontendControllerTest {
     @Test
     public void shouldDeleteProductDetails() {
 
-        when(basicService.deleteProductDetails("1")).thenReturn(Mono.just(product1));
+        when(basicService.deleteProductDetails("1")).thenReturn(Mono.empty());
 
         webTestClient.delete().uri("/products/1")
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .expectStatus().isOk()
-            .expectBody(Product.class)
-
-        .isEqualTo(product1);
+            .expectBody(Product.class);
 
         verify(basicService, times(1)).deleteProductDetails("1");
     }
