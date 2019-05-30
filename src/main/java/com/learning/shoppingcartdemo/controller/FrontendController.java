@@ -23,27 +23,27 @@ import reactor.core.publisher.Mono;
 public class FrontendController {
     private final BasicService basicService;
 
-    @GetMapping(value = "/products")
+    @GetMapping(value = "/api/products")
     public Flux<Product> getProducts() {
         return basicService.getProducts();
     }
 
-    @GetMapping(value = "/products/{id}")
+    @GetMapping(value = "/api/products/{id}")
     public Mono<Product> getProductById(@PathVariable String id) {
         return basicService.getProductById(id);
     }
 
-    @PutMapping(value = "/products/{id}")
+    @PutMapping(value = "/api/products/{id}")
     public Mono<Product> updateProductDetails(@RequestBody Product product, @PathVariable String id) {
         return basicService.updateProductDetails(product, id);
     }
 
-    @PostMapping(value = "/product")
+    @PostMapping(value = "/api/product")
     public Mono<Product> addProduct(@RequestBody Product product){
         return basicService.addProductDetails(product);
     }
 
-    @DeleteMapping(value = "/products/{id}")
+    @DeleteMapping(value = "/api/products/{id}")
     public Mono<Void> deleteProduct(@PathVariable String id){
          return basicService.deleteProductDetails(id);
     }
