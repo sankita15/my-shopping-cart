@@ -21,4 +21,11 @@ public class CartService {
         return cartRepository.insert(shoppingCart);
     }
 
+    public Flux<ShoppingCart> getCartByUsername(String username) {
+        return cartRepository.findByUsername(username);
+    }
+
+    public Mono<ShoppingCart> getCartByCartId(String cartId) {
+        return cartRepository.findById(cartId);
+    }
 }
