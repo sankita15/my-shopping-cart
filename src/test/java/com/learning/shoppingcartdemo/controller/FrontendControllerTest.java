@@ -4,6 +4,7 @@ import com.learning.shoppingcartdemo.config.JwtUtilConfig;
 import com.learning.shoppingcartdemo.config.TestConfig;
 import com.learning.shoppingcartdemo.model.Product;
 import com.learning.shoppingcartdemo.service.BasicService;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -62,13 +62,9 @@ public class FrontendControllerTest {
         .imageUrl(IMAGE_URL2)
         .stock(20).build();
 
+    @SneakyThrows
     private static Date getParsedDate(String dateString) {
-        try {
-            return date.parse(dateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return date.parse(dateString);
     }
 
     @Test
@@ -122,7 +118,7 @@ public class FrontendControllerTest {
 
     @Test
     public void shouldAddProductDetails() {
-        Product product3 =  product1.toBuilder().id("3").productName("New Garden Rake").build();
+        Product product3 = product1.toBuilder().id("3").productName("New Garden Rake").build();
 
         when(basicService.addProductDetails(product3)).thenReturn(Mono.just(product3));
 
