@@ -13,8 +13,8 @@ import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Data
+@Builder(toBuilder = true)
 @Document(collection = "Product")
 public class Product {
     @Id
