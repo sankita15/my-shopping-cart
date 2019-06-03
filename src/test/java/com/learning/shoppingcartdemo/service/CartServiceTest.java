@@ -63,6 +63,16 @@ public class CartServiceTest {
         .cartPrice(400)
         .build();
 
+    private static final ShoppingCart ORDERED_CART = ShoppingCart.builder()
+        .id("1")
+        .username("user")
+        .orderDate(new Date())
+        .cartStatus(ShoppingCart.ORDERED)
+        .products(getProducts("1", product1))
+        .productQuantities(getProductQuantity("1", 5))
+        .cartPrice(400)
+        .build();
+
     private static HashMap<String, Integer> getProductQuantity(String id, Integer quantity) {
         HashMap productQuantities = new HashMap<>();
         productQuantities.put(id, quantity);
@@ -117,5 +127,17 @@ public class CartServiceTest {
             .verifyComplete();
 
         verify(cartRepository, times(1)).findByUsername("user");
+    }
+
+    @Test
+    public void shouldPlaceOrderForCart() {
+        when(cartRepository.findById("1")).thenReturn(Mono.just(CART1));
+        when(cartRepository.save(ORDERED_CART)).thenReturn(Mono.just(ORDERED_CART));
+
+        StepVerifier.create(cartService.placeOrder("1"))
+            .expectNext(ORDERED_CART)
+            .verifyComplete();
+
+        verify(cartRepository, times(1)).save(ORDERED_CART);
     }
 }

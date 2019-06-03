@@ -77,6 +77,16 @@ public class ShoppingCartControllerTest {
         .cartPrice(400)
         .build();
 
+    private static final ShoppingCart ORDERED_CART = ShoppingCart.builder()
+        .id("1")
+        .username("user")
+        .orderDate(new Date())
+        .cartStatus(ShoppingCart.ORDERED)
+        .products(getProducts("1", product1))
+        .productQuantities(getProductQuantity("1", 5))
+        .cartPrice(400)
+        .build();
+
     private static HashMap<String, Integer> getProductQuantity(String id, Integer quantity) {
         HashMap productQuantities = new HashMap<>();
         productQuantities.put(id, quantity);
@@ -150,5 +160,20 @@ public class ShoppingCartControllerTest {
             .contains(CART2);
 
         verify(cartService, times(1)).getCartByUsername("alice");
+    }
+
+    @Test
+    public void shouldPlaceOrder() {
+        when(cartService.placeOrder("1")).thenReturn(Mono.just(ORDERED_CART));
+
+        webTestClient.put().uri("/api/carts/1/order")
+            .header("AUTHORIZATION", MOCK_BEARER_AUTH_TOKEN)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(ShoppingCart.class)
+            .isEqualTo(ORDERED_CART);
+
+        verify(cartService, times(1)).placeOrder("1");
     }
 }

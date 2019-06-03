@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +38,10 @@ public class ShoppingCartController {
     @GetMapping(value = "/{cartId}")
     public Mono<ShoppingCart> getCartByCartId(@PathVariable String cartId){
         return cartService.getCartByCartId(cartId);
+    }
+
+    @PutMapping(value = "{cartId}/order")
+    public Mono<ShoppingCart> placeOrder(@PathVariable String cartId){
+        return cartService.placeOrder(cartId);
     }
 }

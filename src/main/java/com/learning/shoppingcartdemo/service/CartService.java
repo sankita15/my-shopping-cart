@@ -28,4 +28,10 @@ public class CartService {
     public Mono<ShoppingCart> getCartByCartId(String cartId) {
         return cartRepository.findById(cartId);
     }
+
+    public Mono<ShoppingCart> placeOrder(String cartId) {
+        return getCartByCartId(cartId)
+            .map(cart -> cart.toBuilder().cartStatus(ShoppingCart.ORDERED).build())
+            .flatMap(cartRepository::save);
+    }
 }
