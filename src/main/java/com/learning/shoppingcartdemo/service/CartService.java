@@ -58,11 +58,40 @@ public class CartService {
         return products;
     }
 
+    private HashMap<String, Product> removeProducts(ShoppingCart cart, String productId) {
+        HashMap<String, Product> products = new HashMap<>(cart.getProducts());
+        if (cart.getProductQuantities().get(productId) == 1)
+            products.remove(productId);
+        return products;
+    }
+
+
+    private HashMap<String, Integer> removeProductsQuantity(HashMap<String, Integer> quantities, String productId) {
+        HashMap<String, Integer> productQuantities = new HashMap<>(quantities);
+
+        if (productQuantities.get(productId) != 1) {
+            productQuantities.put(productId, productQuantities.get(productId) - 1);
+        } else {
+            productQuantities.remove(productId);
+        }
+        return productQuantities;
+    }
+
     private HashMap<String, Integer> getProductQuantity(String id, HashMap<String, Integer> quantities) {
         HashMap<String, Integer> productQuantities = new HashMap<>(quantities);
 
         productQuantities.put(id, productQuantities.containsKey(id) ? productQuantities.get(id) + 1 : 1);
 
         return productQuantities;
+    }
+
+    public Mono<ShoppingCart> removeProduct(String cartId, String productId) {
+        return getCartByCartId(cartId)
+            .map(cart -> cart.toBuilder()
+                .products(removeProducts(cart, productId))
+                .productQuantities(removeProductsQuantity(cart.getProductQuantities(), productId))
+                .cartPrice(cart.getCartPrice() - cart.getProducts().get(productId).getPrice())
+                .build())
+            .flatMap(cartRepository::save);
     }
 }

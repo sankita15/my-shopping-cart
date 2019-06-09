@@ -36,7 +36,7 @@ public class BasicService {
         return productRepository.insert(product);
     }
 
-    public Mono<Void> deleteProductDetails(String id){
-         return productRepository.deleteById(id);
+    public Mono<Void> deleteProductDetails(String id) {
+        return productRepository.deleteById(id);
     }
 }

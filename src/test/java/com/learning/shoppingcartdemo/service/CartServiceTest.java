@@ -47,7 +47,7 @@ public class CartServiceTest {
     private static final Product PRODUCT_1 = Product.builder().id("1")
         .productName("Leaf Rake")
         .productCode("GDN-0011")
-        .price(1995)
+        .price(100)
         .releaseDate(getParsedDate("2017-03-19T15:15:55.570Z"))
         .description("Leaf rake with 48-inch wooden handle.")
         .starRating(3.2f)
@@ -57,7 +57,7 @@ public class CartServiceTest {
     private static final Product PRODUCT_2 = Product.builder().id("2")
         .productName("New Leaf Rake")
         .productCode("GDN-0431")
-        .price(7890)
+        .price(200)
         .releaseDate(getParsedDate("2017-03-19T15:15:55.570Z"))
         .description("Leaf rake with 48-inch wooden handle.")
         .starRating(4.2f)
@@ -76,7 +76,17 @@ public class CartServiceTest {
         .cartStatus(ShoppingCart.PENDING)
         .products(getProducts(PRODUCT_1))
         .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5)))
-        .cartPrice(400)
+        .cartPrice(500)
+        .build();
+
+    private static final ShoppingCart CART_WITH_PRODUCTS = ShoppingCart.builder()
+        .id("1")
+        .username("user")
+        .orderDate(orderDate)
+        .cartStatus(ShoppingCart.PENDING)
+        .products(getProducts(PRODUCT_1, PRODUCT_2))
+        .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5), new SimpleEntry<>("2", 1)))
+        .cartPrice(700)
         .build();
 
     private static final ShoppingCart ORDERED_CART = ShoppingCart.builder()
@@ -86,7 +96,7 @@ public class CartServiceTest {
         .cartStatus(ShoppingCart.ORDERED)
         .products(getProducts(PRODUCT_1))
         .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5)))
-        .cartPrice(400)
+        .cartPrice(500)
         .build();
 
     private static HashMap<String, Product> getProducts(Product... products) {
@@ -105,7 +115,17 @@ public class CartServiceTest {
         .cartStatus(ShoppingCart.PENDING)
         .products(getProducts(PRODUCT_1, PRODUCT_2))
         .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5), new SimpleEntry<>("2", 1)))
-        .cartPrice(8290)
+        .cartPrice(700)
+        .build();
+
+    private static final ShoppingCart CART_WITH_REMOVED_PRODUCT = ShoppingCart.builder()
+        .id("1")
+        .username("user")
+        .orderDate(orderDate)
+        .cartStatus(ShoppingCart.PENDING)
+        .products(getProducts(PRODUCT_1))
+        .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5)))
+        .cartPrice(500)
         .build();
 
     @Test
@@ -184,5 +204,17 @@ public class CartServiceTest {
             .expectComplete();
 
         verify(cartRepository, times(1)).deleteById("1");
+    }
+
+    @Test
+    public void shouldDeleteProductFromCart() {
+        when(cartRepository.findById("1")).thenReturn(Mono.just(CART_WITH_PRODUCTS));
+        when(cartRepository.save(any())).thenReturn(Mono.just(CART_WITH_REMOVED_PRODUCT));
+
+        StepVerifier.create(cartService.removeProduct("1", "2"))
+            .expectNext(CART_WITH_REMOVED_PRODUCT)
+            .verifyComplete();
+
+        verify(cartRepository, times(1)).save(CART_WITH_REMOVED_PRODUCT);
     }
 }

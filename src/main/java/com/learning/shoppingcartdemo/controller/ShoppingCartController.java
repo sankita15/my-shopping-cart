@@ -58,4 +58,10 @@ public class ShoppingCartController {
     public Mono<Void> deleteCart(@PathVariable String cartId) {
         return cartService.deleteCart(cartId);
     }
+
+    @DeleteMapping(value = "/{cartId}/product/{productId}")
+    public Mono<ShoppingCart> removeProduct(@PathVariable String cartId,
+                                            @PathVariable String productId) {
+        return cartService.removeProduct(cartId, productId);
+    }
 }

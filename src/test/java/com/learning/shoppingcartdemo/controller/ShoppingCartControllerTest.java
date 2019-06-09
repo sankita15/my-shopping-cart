@@ -52,6 +52,8 @@ public class ShoppingCartControllerTest {
         .imageUrl(IMAGE_URL1)
         .stock(400).build();
 
+    private static Date orderDate = new Date();
+
     @SneakyThrows
     private static Date getParsedDate(String dateString) {
         return date.parse(dateString);
@@ -60,7 +62,7 @@ public class ShoppingCartControllerTest {
     private static final ShoppingCart CART1 = ShoppingCart.builder()
         .id("1")
         .username("user")
-        .orderDate(new Date())
+        .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
         .products(getProducts("1", product1))
         .productQuantities(getProductQuantity("1", 5))
@@ -70,7 +72,7 @@ public class ShoppingCartControllerTest {
     private static final ShoppingCart CART2 = ShoppingCart.builder()
         .id("2")
         .username("alice")
-        .orderDate(new Date())
+        .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
         .products(getProducts("2", product1))
         .productQuantities(getProductQuantity("2", 2))
@@ -80,7 +82,7 @@ public class ShoppingCartControllerTest {
     private static final ShoppingCart ORDERED_CART = ShoppingCart.builder()
         .id("1")
         .username("user")
-        .orderDate(new Date())
+        .orderDate(orderDate)
         .cartStatus(ShoppingCart.ORDERED)
         .products(getProducts("1", product1))
         .productQuantities(getProductQuantity("1", 5))
@@ -90,11 +92,18 @@ public class ShoppingCartControllerTest {
     private static final ShoppingCart CART_WITH_ADDED_PRODUCT = ShoppingCart.builder()
         .id("1")
         .username("user")
-        .orderDate(new Date())
+        .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
         .products(getProducts("1", product1))
         .productQuantities(getProductQuantity("1", 5))
         .cartPrice(400)
+        .build();
+
+    private static final ShoppingCart EMPTY_CART = ShoppingCart.builder()
+        .id("1")
+        .username("user")
+        .orderDate(orderDate)
+        .cartStatus(ShoppingCart.PENDING)
         .build();
 
     private static HashMap<String, Integer> getProductQuantity(String id, Integer quantity) {
@@ -103,7 +112,7 @@ public class ShoppingCartControllerTest {
         return productQuantities;
     }
 
-    private static HashMap<String, Product> getProducts(String id , Product product1) {
+    private static HashMap<String, Product> getProducts(String id, Product product1) {
         HashMap<String, Product> product = new HashMap<>();
         product.put(id, product1);
         return product;
@@ -217,5 +226,21 @@ public class ShoppingCartControllerTest {
             .doesNotContain(CART1);
 
         verify(cartService, times(1)).deleteCart("1");
+    }
+
+    @Test
+    public void shouldRemoveProduct() {
+        when(cartService.removeProduct("1", "1")).thenReturn(Mono.just(EMPTY_CART));
+
+        webTestClient.delete().uri("/api/carts/1/product/1")
+            .header("AUTHORIZATION", MOCK_BEARER_AUTH_TOKEN)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBodyList(ShoppingCart.class)
+            .hasSize(1)
+            .contains(EMPTY_CART);
+
+        verify(cartService, times(1)).removeProduct("1", "1");
     }
 }
