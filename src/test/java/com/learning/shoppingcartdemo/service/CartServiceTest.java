@@ -14,8 +14,11 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.text.SimpleDateFormat;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -71,8 +74,8 @@ public class CartServiceTest {
         .username("user")
         .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
-        .products(getProducts("1", PRODUCT_1))
-        .productQuantities(getProductQuantity("1", 5))
+        .products(getProducts(PRODUCT_1))
+        .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5)))
         .cartPrice(400)
         .build();
 
@@ -81,27 +84,19 @@ public class CartServiceTest {
         .username("user")
         .orderDate(orderDate)
         .cartStatus(ShoppingCart.ORDERED)
-        .products(getProducts("1", PRODUCT_1))
-        .productQuantities(getProductQuantity("1", 5))
+        .products(getProducts(PRODUCT_1))
+        .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5)))
         .cartPrice(400)
         .build();
 
-    private HashMap<String, Product> products = getProducts("1", PRODUCT_1);
-
-    private static HashMap<String, Product> getProducts(Product product1, Product product2) {
-        HashMap<String, Product> products = new HashMap<>();
-        products.put(product1.getId(), product1);
-        products.put(product2.getId(), product2);
-        return products;
+    private static HashMap<String, Product> getProducts(Product... products) {
+        return Arrays.stream(products)
+            .collect(Collectors.toMap(Product::getId, product -> product, (a, b) -> b, HashMap::new));
     }
 
-    private static HashMap<String, Integer> getProductQuantities() {
-        HashMap<String, Integer> productQuantities = new HashMap<>();
-        productQuantities.put("1", 5);
-        productQuantities.put("2", 1);
-        return productQuantities;
+    private static HashMap<String, Integer> getProductQuantities(SimpleEntry<String, Integer>... entries) {
+        return Arrays.stream(entries).collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue, (a, b) -> b, HashMap::new));
     }
-
 
     private static final ShoppingCart CART_WITH_ADDED_PRODUCT = ShoppingCart.builder()
         .id("1")
@@ -109,21 +104,9 @@ public class CartServiceTest {
         .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
         .products(getProducts(PRODUCT_1, PRODUCT_2))
-        .productQuantities(getProductQuantities())
+        .productQuantities(getProductQuantities(new SimpleEntry<>("1", 5), new SimpleEntry<>("2", 1)))
         .cartPrice(8290)
         .build();
-
-    private static HashMap<String, Integer> getProductQuantity(String id, Integer quantity) {
-        HashMap productQuantities = new HashMap<>();
-        productQuantities.put(id, quantity);
-        return productQuantities;
-    }
-
-    private static HashMap<String, Product> getProducts(String id, Product product1) {
-        HashMap<String, Product> product = new HashMap<>();
-        product.put(id, product1);
-        return product;
-    }
 
     @Test
     public void shouldReturnListOfAllTheCart() {
