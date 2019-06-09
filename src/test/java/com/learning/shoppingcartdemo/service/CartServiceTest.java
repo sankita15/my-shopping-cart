@@ -175,4 +175,14 @@ public class CartServiceTest {
 
         verify(cartRepository, times(1)).save(CART_WITH_ADDED_PRODUCT);
     }
+
+    @Test
+    public void shouldDeleteCart() {
+        when(cartRepository.deleteById("1")).thenReturn(Mono.empty());
+
+        StepVerifier.create(cartService.deleteCart("1"))
+            .expectComplete();
+
+        verify(cartRepository, times(1)).deleteById("1");
+    }
 }

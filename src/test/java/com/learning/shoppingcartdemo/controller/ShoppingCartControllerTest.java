@@ -202,4 +202,20 @@ public class ShoppingCartControllerTest {
 
         verify(cartService, times(1)).addProduct("1", product1);
     }
+
+    @Test
+    public void shouldDeleteCart() {
+        when(cartService.deleteCart("1")).thenReturn(Mono.empty());
+
+        webTestClient.delete().uri("/api/carts/1")
+            .header("AUTHORIZATION", MOCK_BEARER_AUTH_TOKEN)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBodyList(ShoppingCart.class)
+            .hasSize(0)
+            .doesNotContain(CART1);
+
+        verify(cartService, times(1)).deleteCart("1");
+    }
 }
