@@ -24,8 +24,10 @@ public class ShoppingCart {
     public String id;
 
     public String username;
-    public HashMap<String, Product> products;
-    public HashMap<String, Integer> productQuantities;
+    @Builder.Default
+    public HashMap<String, Product> products = new HashMap<>();
+    @Builder.Default
+    public HashMap<String, Integer> productQuantities = new HashMap<>();
     @Builder.Default
     public int cartPrice = 0;
     @Builder.Default
