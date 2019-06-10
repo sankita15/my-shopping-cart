@@ -42,10 +42,20 @@ public class ShoppingCartControllerTest {
 
     private static final SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-    private static final Product product1 = Product.builder().id("1")
+    private static final Product PRODUCT_1 = Product.builder().id("1")
         .productName("Leaf Rake")
         .productCode("GDN-0011")
         .price(1995)
+        .releaseDate(getParsedDate("2017-03-19T15:15:55.570Z"))
+        .description("Leaf rake with 48-inch wooden handle.")
+        .starRating(3.2f)
+        .imageUrl(IMAGE_URL1)
+        .stock(400).build();
+
+    private static final Product UPDATED_PRODUCT = Product.builder().id("1")
+        .productName("Leaf Rake")
+        .productCode("GDN-0011")
+        .price(2000)
         .releaseDate(getParsedDate("2017-03-19T15:15:55.570Z"))
         .description("Leaf rake with 48-inch wooden handle.")
         .starRating(3.2f)
@@ -64,7 +74,7 @@ public class ShoppingCartControllerTest {
         .username("user")
         .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
-        .products(getProducts("1", product1))
+        .products(getProducts("1", PRODUCT_1))
         .productQuantities(getProductQuantity("1", 5))
         .cartPrice(400)
         .build();
@@ -74,7 +84,17 @@ public class ShoppingCartControllerTest {
         .username("alice")
         .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
-        .products(getProducts("2", product1))
+        .products(getProducts("2", PRODUCT_1))
+        .productQuantities(getProductQuantity("2", 2))
+        .cartPrice(400)
+        .build();
+
+    private static final ShoppingCart CART_WITH_UPDATED_PRODUCT = ShoppingCart.builder()
+        .id("2")
+        .username("alice")
+        .orderDate(orderDate)
+        .cartStatus(ShoppingCart.PENDING)
+        .products(getProducts("2", UPDATED_PRODUCT))
         .productQuantities(getProductQuantity("2", 2))
         .cartPrice(400)
         .build();
@@ -84,7 +104,7 @@ public class ShoppingCartControllerTest {
         .username("user")
         .orderDate(orderDate)
         .cartStatus(ShoppingCart.ORDERED)
-        .products(getProducts("1", product1))
+        .products(getProducts("1", PRODUCT_1))
         .productQuantities(getProductQuantity("1", 5))
         .cartPrice(400)
         .build();
@@ -94,7 +114,7 @@ public class ShoppingCartControllerTest {
         .username("user")
         .orderDate(orderDate)
         .cartStatus(ShoppingCart.PENDING)
-        .products(getProducts("1", product1))
+        .products(getProducts("1", PRODUCT_1))
         .productQuantities(getProductQuantity("1", 5))
         .cartPrice(400)
         .build();
@@ -198,18 +218,18 @@ public class ShoppingCartControllerTest {
 
     @Test
     public void shouldAddProductinCart() {
-        when(cartService.addProduct("1", product1)).thenReturn(Mono.just(CART_WITH_ADDED_PRODUCT));
+        when(cartService.addProduct("1", PRODUCT_1)).thenReturn(Mono.just(CART_WITH_ADDED_PRODUCT));
 
         webTestClient.put().uri("/api/carts/1/product/1")
             .header("AUTHORIZATION", MOCK_BEARER_AUTH_TOKEN)
-            .body(Mono.just(product1), Product.class)
+            .body(Mono.just(PRODUCT_1), Product.class)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .expectStatus().isOk()
             .expectBody(ShoppingCart.class)
             .isEqualTo(CART_WITH_ADDED_PRODUCT);
 
-        verify(cartService, times(1)).addProduct("1", product1);
+        verify(cartService, times(1)).addProduct("1", PRODUCT_1);
     }
 
     @Test
