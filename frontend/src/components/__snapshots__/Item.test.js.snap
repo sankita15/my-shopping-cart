@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Item page should match snapshot 1`] = `
+<a
+  href="/products/5c61496906057ea38af387cd"
+>
+  <div
+    className="item-page"
+  >
+    <Card
+      className="item-card"
+      tag="div"
+    >
+      <CardImg
+        className="item-page-image"
+        src="http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png"
+        tag="img"
+        top={true}
+        width="100%"
+      />
+      <CardBody
+        className="item-body"
+        tag="div"
+      >
+        <CardTitle
+          tag="div"
+        >
+          Leaf Rake
+        </CardTitle>
+        <CardSubtitle
+          tag="div"
+        >
+          Rs.
+          1995
+        </CardSubtitle>
+        <CardText
+          tag="p"
+        >
+          Leaf rake with 48-inch wooden handle.
+        </CardText>
+      </CardBody>
+    </Card>
+  </div>
+</a>
+`;

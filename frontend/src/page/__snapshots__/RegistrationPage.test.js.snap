@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Registration Page should match snapshot 1`] = `
+<div
+  className="registration-page"
+>
+  <Col
+    tag="div"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    <Row
+      sm={3}
+      tag="div"
+    >
+      <Card
+        tag="div"
+      >
+        <CardBody
+          tag="div"
+        >
+          <Label
+            className="heading1"
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Signup with ONE-STOP-SHOP
+          </Label>
+          <FormGroup
+            tag="div"
+          >
+            <Input
+              className="firstname"
+              invalid={false}
+              onChange={[Function]}
+              placeholder="Enter Your Firstname"
+              type="text"
+            />
+            <FormFeedback
+              tag="div"
+            >
+              firstName cannot be less than 3 letters
+            </FormFeedback>
+          </FormGroup>
+          <FormGroup
+            tag="div"
+          >
+            <Input
+              className="lastname"
+              invalid={false}
+              onChange={[Function]}
+              placeholder="Enter your Lastname"
+              type="text"
+            />
+            <FormFeedback
+              tag="div"
+            >
+              Lastname cannot be less than 3 letters
+            </FormFeedback>
+          </FormGroup>
+          <InputGroup
+            className="email"
+            tag="div"
+          >
+            <InputGroupAddon
+              addonType="prepend"
+              tag="div"
+            >
+              @
+            </InputGroupAddon>
+            <Input
+              invalid={false}
+              onChange={[Function]}
+              placeholder="Your Email address"
+              type="text"
+            />
+            <FormFeedback
+              tag="div"
+            >
+              Please provide valid email address. Email must include @ followed by hostname.
+            </FormFeedback>
+          </InputGroup>
+          <FormGroup
+            tag="div"
+          >
+            <br />
+            <Input
+              className="username"
+              invalid={false}
+              onChange={[Function]}
+              placeholder="Choose Your Username"
+              type="text"
+            />
+            <FormFeedback
+              tag="div"
+            >
+              Please choose a username of length between 3 to 10
+            </FormFeedback>
+          </FormGroup>
+          <FormGroup
+            tag="div"
+          >
+            <Input
+              className="password"
+              invalid={false}
+              onChange={[Function]}
+              placeholder="Choose Your Password"
+              type="password"
+            />
+            <FormFeedback
+              tag="div"
+            >
+              Please choose a password of length between 4 to 8.
+            </FormFeedback>
+          </FormGroup>
+          <FormGroup
+            tag="div"
+          >
+            <Input
+              className="password"
+              invalid={false}
+              onChange={[Function]}
+              placeholder="Confirm Your Password"
+              type="password"
+            />
+            <FormFeedback
+              tag="div"
+            >
+              Password & Confirm Password does not match.
+            </FormFeedback>
+          </FormGroup>
+          <Button
+            className="register-button"
+            color="secondary"
+            disabled={true}
+            onClick={[Function]}
+            tag="button"
+            type="submit"
+          >
+            Register
+          </Button>
+          <Row
+            className="login-back-page"
+            tag="div"
+          >
+            <a
+              className="login-link"
+              href="/login"
+            >
+              Back To Login
+            </a>
+          </Row>
+        </CardBody>
+      </Card>
+    </Row>
+  </Col>
+</div>
+`;

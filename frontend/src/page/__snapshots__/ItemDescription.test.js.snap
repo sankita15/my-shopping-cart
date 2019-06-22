@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Item Description Page Item Description Page should match snapshot 1`] = `
+<div
+  className="item-detail-page"
+>
+  <div
+    className="cart-icon"
+  >
+    <Row
+      tag="div"
+    >
+      <Label
+        className="cart-quantity"
+        tag="label"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        0
+      </Label>
+    </Row>
+    <Row
+      tag="div"
+    >
+      <FaCartPlus
+        onClick={[Function]}
+        size={45}
+      />
+    </Row>
+  </div>
+  <div
+    className="item-image"
+  >
+    <Media
+      alt="Leaf Rake"
+      src="http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png"
+    />
+  </div>
+  <div
+    className="item-container"
+  >
+    <div
+      className="item-details"
+    >
+      <Label
+        className="item-name"
+        tag="label"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        Leaf Rake
+      </Label>
+      <Label
+        tag="label"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        Star Rating:
+        3.2
+      </Label>
+      <Label
+        tag="label"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        Product Code:
+        GDN-0011
+      </Label>
+      <Label
+        tag="label"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        Description:
+        Leaf rake with 48-inch wooden handle.
+      </Label>
+      <Label
+        tag="label"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        Rs.
+        1995
+      </Label>
+      <br />
+      <br />
+    </div>
+    <div
+      className="button-group"
+    >
+      <Button
+        className="cart"
+        color="secondary"
+        disabled={false}
+        onClick={[Function]}
+        tag="button"
+      >
+        ADD TO CART
+      </Button>
+      <Button
+        className="buy"
+        color="secondary"
+        disabled={false}
+        onClick={[Function]}
+        tag="button"
+      >
+        BUY NOW
+      </Button>
+    </div>
+  </div>
+</div>
+`;

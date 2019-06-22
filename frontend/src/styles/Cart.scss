@@ -1,0 +1,31 @@
+.cart-image{
+  height: 81px;
+  margin-right: -106px;
+  cursor: pointer;
+}
+.cart-product-name{
+  cursor: pointer;
+  color: black;
+}
+.cart-plus{
+  cursor: pointer;
+}
+.cart-minus{
+  cursor: pointer;
+}
+.cart-quantity-label{
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.table-row{
+  background-color: lightgrey;
+  height: 1px;
+}
+.table-final-row{
+  font-weight: bold;
+  margin-left: 1071px;
+  margin-top: 15px;
+}
+.table td{
+  vertical-align: middle;
+}

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Description render header should match snapshot 1`] = `
+<div
+  className="header"
+>
+  <Nav
+    tag="ul"
+    vertical={false}
+  >
+    <NavItem
+      tag="li"
+    >
+      <NavLink
+        className="icon"
+        tag="a"
+      >
+        <FaViadeo
+          size={45}
+        />
+      </NavLink>
+    </NavItem>
+    <NavItem
+      tag="li"
+    >
+      <NavLink
+        className="link"
+        href="/products"
+        tag="a"
+      >
+        Home
+      </NavLink>
+    </NavItem>
+    <NavItem
+      tag="li"
+    >
+      <NavLink
+        className="log-out"
+        href="/logout"
+        tag="a"
+      >
+        <GoSignOut
+          size={25}
+        />
+      </NavLink>
+    </NavItem>
+  </Nav>
+</div>
+`;

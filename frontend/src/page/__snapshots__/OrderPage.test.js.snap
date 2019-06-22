@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Order Page should match snapshot 1`] = `
+<div>
+  <Row
+    tag="div"
+  />
+  <Label
+    className="welcome-order"
+    tag="label"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    Hello ALICE, Review Your Order
+  </Label>
+  <Row
+    tag="div"
+  >
+    <Col
+      sm={8}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Card
+        className="order-card"
+        tag="div"
+      >
+        <CardBody
+          className="place-order"
+          key="59d89875479ded2a718bac13"
+          tag="div"
+        >
+          <Media
+            className="order-image"
+            src="http://colgate.com/2/"
+          />
+          <CardText
+            className="product-name"
+            tag="p"
+          >
+            colgatewhite
+          </CardText>
+          <CardText
+            className="product-code"
+            tag="p"
+          >
+            GE-1206
+          </CardText>
+          <CardText
+            className="product-price"
+            tag="p"
+          >
+            Rs. 300
+          </CardText>
+          <CardText
+            className="product-quantity"
+            tag="p"
+          >
+            Quantity: 2
+          </CardText>
+          <CardText
+            className="product-rating"
+            tag="p"
+          >
+            Star Rating: 4.5
+          </CardText>
+          <CardText
+            className="product-delivery"
+            tag="p"
+          >
+            Estimated Delivery : 22/6/2019
+          </CardText>
+          <div
+            className="horizontal-line"
+          />
+        </CardBody>
+        <CardBody
+          className="place-order"
+          key="59d89875479ded2a718bac14"
+          tag="div"
+        >
+          <Media
+            className="order-image"
+            src="http://gilette.com/2/"
+          />
+          <CardText
+            className="product-name"
+            tag="p"
+          >
+            gilettemousse
+          </CardText>
+          <CardText
+            className="product-code"
+            tag="p"
+          >
+            GE-1206
+          </CardText>
+          <CardText
+            className="product-price"
+            tag="p"
+          >
+            Rs. 200
+          </CardText>
+          <CardText
+            className="product-quantity"
+            tag="p"
+          >
+            Quantity: 2
+          </CardText>
+          <CardText
+            className="product-rating"
+            tag="p"
+          >
+            Star Rating: 4.2
+          </CardText>
+          <CardText
+            className="product-delivery"
+            tag="p"
+          >
+            Estimated Delivery : 22/6/2019
+          </CardText>
+          <div
+            className="horizontal-line"
+          />
+        </CardBody>
+      </Card>
+    </Col>
+    <Col
+      sm={3}
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Card
+        className="order-value-card"
+        tag="div"
+      >
+        <CardBody
+          className="order-price"
+          tag="div"
+        >
+          <CardText
+            className="order-summary"
+            tag="p"
+          >
+            Order Summary
+          </CardText>
+          <CardText
+            tag="p"
+          >
+            Items Price: 1000
+          </CardText>
+          <CardText
+            tag="p"
+          >
+             
+            Delivery: Rs 40
+             
+          </CardText>
+          <CardText
+            tag="p"
+          >
+             
+            Cart Total: Rs 1040
+             
+          </CardText>
+          <Button
+            className="place-order-button"
+            color="secondary"
+            disabled={false}
+            onClick={[Function]}
+            tag="button"
+          >
+            Place Your Order
+          </Button>
+        </CardBody>
+      </Card>
+    </Col>
+  </Row>
+</div>
+`;

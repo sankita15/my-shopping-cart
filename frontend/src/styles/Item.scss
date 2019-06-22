@@ -1,0 +1,33 @@
+.item-page {
+
+  width: 25%;
+  height: 341px;
+  float: left;
+
+  .item-card {
+    margin: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+
+    .item-page-image {
+      width: 200px;
+      height: 200px;
+      margin-left: 70px;
+    }
+
+    .item-body{
+      color: black;
+    }
+
+    .btn-secondary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn .btn-primary .btn-secondary {
+      width: 100%;
+      display: block;
+    }
+
+  }
+}

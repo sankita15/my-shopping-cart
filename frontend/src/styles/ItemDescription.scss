@@ -1,0 +1,53 @@
+
+.item-image{
+  vertical-align: center;
+  float: left;
+  margin: 130px 182px 182px;
+}
+.item-details{
+  margin-top: 130px;
+  vertical-align: top;
+  & > label {
+    display: block;
+  }
+
+  .item-name{
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+
+.out-of-stock-label{
+  color: red;
+  font-weight: bold;
+}
+
+.cart-icon {
+  margin-left: 1350px;
+  margin-top: 15px;
+  color: #007bff;
+  cursor: pointer;
+
+  :hover{
+    color: #5a6268;
+  }
+}
+
+.cart-quantity{
+  display: inline-block;
+  margin-left: 22px;
+  margin-bottom: -10px;
+  color: brown;
+  font-weight: bold;
+}
+
+.button-group{
+
+  & > button {
+    display: block;
+    margin-top: 15px;
+    width:304px;
+    background-color: #007bff;
+  }
+
+}
