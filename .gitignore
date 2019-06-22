@@ -1,29 +1,15 @@
-.gradle
-/build/
-!gradle/wrapper/gradle-wrapper.jar
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+.idea/
 *.iml
 *.ipr
-/out/
+*.iws
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+/backend/.gradle/
+/backend/build/
+/backend/out/
+/backend/bin/**
+/backend/.classpath
+/backend/.project
+/backend/.settings/**
 
-### VS Code ###
-.vscode/
+/frontend/dist/
+/frontend/node_modules/
