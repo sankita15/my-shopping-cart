@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-public class FrontendController {
+public class FrontendApiController {
     private final BasicService basicService;
 
     @GetMapping(value = "/api/products")
