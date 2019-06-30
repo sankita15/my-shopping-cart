@@ -22,19 +22,19 @@ public class WebSecurityConfig {
         ServerHttpSecurity http, AuthenticationManager authenticationManager,
         SecurityContextRepository securityContextRepository) {
         return http
-            .exceptionHandling()
-            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/login"))
-            .accessDeniedHandler((swe, e) -> Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN)))
-            .and()
-            .authenticationManager(authenticationManager)
-            .securityContextRepository(securityContextRepository)
+//            .exceptionHandling()
+//            .authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/login"))
+//            .accessDeniedHandler((swe, e) -> Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN)))
+//            .and()
+//            .authenticationManager(authenticationManager)
+//            .securityContextRepository(securityContextRepository)
             .httpBasic().disable()
             .csrf().disable()
             .formLogin().disable()
             .authorizeExchange()
             .pathMatchers(HttpMethod.OPTIONS).permitAll()
-            .pathMatchers("/login").permitAll()
-            .anyExchange().authenticated()
+//            .pathMatchers("/login").permitAll()
+            .anyExchange().permitAll()
             .and().build();
     }
 }
